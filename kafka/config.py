@@ -1,9 +1,10 @@
-USER="cytech",
-PASSWORD="cytech",
-HOST="localhost",
-PORT="5432",
-DATABASE="trackinggps_bdd"
-TABLE="location_history"
+SQL_USER = "root"
+SQL_PASSWORD = "CYTECH24"
+SQL_HOST = "localhost"
+SQL_DATABASE = "trackingGPS"
+SQL_AUTH = "SQL_native_password"
+SQL_PORT = "3306"
+SQL_TABLE = "history"
 
 KAFKA_TOPIC="trackingGPS"
 KAFKA_SERVER_ADDRESS="localhost:9092"
