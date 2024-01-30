@@ -26,19 +26,6 @@ app.add_middleware(
 async def index():
     return {"message": "Welcome on our API"}
 
-# async def data_gps(data: dict):
-#     """Some (fake) gps coordinates data."""
-#     await asyncio.sleep(2)
-#     message_processed = data.get("message", "").upper()
-#     return message_processed
-
-# # Replace 'your_kafka_bootstrap_servers' with your actual Kafka bootstrap servers
-# KAFKA_BOOTSTRAP_SERVERS = 'your_kafka_bootstrap_servers'
-# KAFKA_TOPIC = 'gps_data_topic'
-
-# # Create a Kafka consumer
-# consumer = KafkaConsumer(KAFKA_TOPIC, bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS, group_id='gps_consumer')
-
 # @app.websocket("/ws")
 # async def websocket_endpoint(websocket: WebSocket):
 #     # Accept the connection from a client.

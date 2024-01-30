@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import * as L from 'leaflet';
+
 import { CoordinatesService } from '../../services/coordinates.service';
+import { WebsocketService } from '../../services/websocket.service';
+
 import { Coordinates } from '../../model/coordinates.model';
 import { icon, Marker } from 'leaflet';
 
@@ -30,12 +33,19 @@ Marker.prototype.options.icon = iconDefault;
 export class TrackingComponent implements OnInit {
   machine_ID = 'IP1';
   markers: L.Marker[] = []; // Array to store all markers
+  coordinates : any[] = [];
   private destroy$ = new Subject<void>();
 
   constructor(
+    private webSocketService: WebsocketService,
     private coordinatesService: CoordinatesService,
     private cdr: ChangeDetectorRef
   ) {}
+
+  // ngOnInit() {
+  //   this.webSocketService.connectToWebSocket().subscribe((message) => {
+  //     this.messages.push(message);
+  //   });
 
   ngOnInit(): void {
     // Use interval to trigger the API call every 5 seconds
