@@ -9,7 +9,7 @@ def send_location(producer, user_id: int, lat: float, long: float):
     topic_name = config.KAFKA_TOPIC
 
     # Create a message
-    message = {"id": user_id, "lat": lat, "long": long}
+    message = {"user": user_id, "lat": lat, "long": long}
 
     # Use the JSON serializer of the Kafka producer
     producer.send(topic_name, value=message)
