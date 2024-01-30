@@ -4,12 +4,12 @@ import random
 import time
 import config
 
-def send_location(producer, user_id: int, lat: float, long: float):
+def send_location(producer, user_id: str, lat: float, long: float):
     # Get variables from config file
     topic_name = config.KAFKA_TOPIC
 
     # Create a message
-    message = {"user": user_id, "lat": lat, "long": long}
+    message = {"ip_user": user_id, "lat": lat, "long": long}
 
     # Use the JSON serializer of the Kafka producer
     producer.send(topic_name, value=message)
@@ -29,7 +29,7 @@ def generate_random_movement(current_lat: float, current_long: float):
     return new_lat, new_long
 
 if __name__ == "__main__":
-    user_id = 0
+    user_id = 192.168.1.45
 
     # Create a Kafka producer
     producer = KafkaProducer(
