@@ -1,8 +1,5 @@
-import logging
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
-import asyncio
-import json
 from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
 
 app = FastAPI(
@@ -10,7 +7,6 @@ app = FastAPI(
     description="Simulation IoT d'un tracking GPS",
     version="0.1",
 )
-loop = asyncio.get_event_loop()
 
 
 origins = [
@@ -69,13 +65,11 @@ fake_data = {
         {"latitude": 43.2953, "longitude": -0.3700},
         {"latitude": 43.2944, "longitude": -0.3705},
         {"latitude": 43.2981, "longitude": -0.3708},
-        # Add more data points for IP1 as needed
     ],
     "IP2": [
         {"latitude": 40.7128, "longitude": -74.0060},
         {"latitude": 40.7129, "longitude": -74.005},
         {"latitude": 40.713, "longitude": -74.004},
-        # Add more data points for IP2 as needed
     ],
 }
 
