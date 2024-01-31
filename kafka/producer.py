@@ -13,7 +13,7 @@ def send_location(producer, user_id: str, lat: float, long: float):
 
     # Create a message
 
-    message = {"ip_user": user_id, "lat": lat, "long": long}
+    message = {"user_ip": user_id, "latitude": lat, "longitude": long}
 
 
     # Use the JSON serializer of the Kafka producer

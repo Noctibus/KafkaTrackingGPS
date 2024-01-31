@@ -9,3 +9,4 @@ websockets
 wsproto
 mysql-connector-python==8.3.0
 aiokafka
+aiohttp

@@ -6,8 +6,9 @@ import asyncio
 import json
 from aiokafka import AIOKafkaConsumer, AIOKafkaProducer
 from aiohttp import web
-# import WebsocketResponse
 from aiohttp.web import WebSocketResponse
+from consumer import get_latest_message_from_BDD, initiate_database
+import uvicorn
 
 
 
@@ -34,41 +35,9 @@ app.add_middleware(
 
 @app.get("/")
 async def index():
+    initiate_database(host="database")
     return {"message": "Welcome on our API"}
 
-# async def data_gps(data: dict):
-#     """Some (fake) gps coordinates data."""
-#     await asyncio.sleep(2)
-#     message_processed = data.get("message", "").upper()
-#     return message_processed
-
-# # Replace 'your_kafka_bootstrap_servers' with your actual Kafka bootstrap servers
-# KAFKA_BOOTSTRAP_SERVERS = 'your_kafka_bootstrap_servers'
-# KAFKA_TOPIC = 'gps_data_topic'
-
-# # Create a Kafka consumer
-# consumer = KafkaConsumer(KAFKA_TOPIC, bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS, group_id='gps_consumer')
-
-# @app.websocket("/ws")
-# async def websocket_endpoint(websocket: WebSocket):
-#     # Accept the connection from a client.
-#     await websocket.accept()
-#     while True:
-#         try:
-#             # Receive the PostgreSQL data sent by a client.
-#             data = await websocket.receive_json()
-#             # Some (fake) heavey data processing logic.
-#             message_processed = await data_gps(data)
-#             # Send JSON data to the client.
-#             await websocket.send_json(
-#                 {
-#                     "message": message_processed,
-#                     "time": datetime.now().strftime("%H:%M:%S"),
-#                 }
-#             )
-#         except WebSocketDisconnect:
-#             logger.info("The connection is closed.")
-#             break
 
 fake_data = {
     "IP1": [
@@ -90,7 +59,9 @@ fake_data = {
 
 @app.get("/fake-gps/{machine_id}")
 async def get_fake_gps(machine_id: str):
-    if machine_id not in fake_data:
-        return {"error": "Machine not found"}
+    msg = get_latest_message_from_BDD(ip=machine_id, host="database")
+    return msg
 
-    return fake_data[machine_id]
+
+if __name__ == "__main__":
+    uvicorn.run("api:app", host="0.0.0.0", port=8000)

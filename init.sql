@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS history (
     id INT AUTO_INCREMENT,
     latitude DOUBLE NOT NULL,
     longitude DOUBLE NOT NULL,
-    user VARCHAR(50) NOT NULL,
+    user_ip VARCHAR(50) NOT NULL,
     PRIMARY KEY (id)
 );

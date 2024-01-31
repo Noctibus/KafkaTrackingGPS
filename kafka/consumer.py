@@ -6,27 +6,40 @@ from pprint import pprint
 from datetime import datetime
 
 
-def connect_database(host:str=config.SQL_HOST):
+def connect_database(host:str=config.SQL_HOST, database=config.SQL_DATABASE):
     user     = config.SQL_USER
     password = config.SQL_PASSWORD
     database = config.SQL_DATABASE
     auth     = config.SQL_AUTH
     port     = config.SQL_PORT
-    cnx = mysql.connector.connect(
-        host        = host,
-        user        = user,
-        password    = password,
-        database    = database,
-        auth_plugin = auth,
-        port        = port
+    if database is not None:
+        cnx = mysql.connector.connect(
+            host        = host,
+            user        = user,
+            password    = password,
+            database    = database,
+            auth_plugin = auth,
+            port        = port
     )
+    else:
+        cnx = mysql.connector.connect(
+            host        = host,
+            user        = user,
+            password    = password,
+            auth_plugin = auth,
+            port        = port
+        )
     return cnx
 
 
-def create_table_in_BDD(cnx: mysql.connector.connect):
+def initiate_database(cnx: mysql.connector.connect=None, host:str=config.SQL_HOST):
+    if cnx is None:
+        cnx = connect_database(host, database=None)
     cursor = cnx.cursor()
     # create table
-    query = f"CREATE TABLE {config.SQL_TABLE} (id INT PRIMARY KEY, latitude FLOAT, longitude FLOAT)"
+    query = f"CREATE DATABASE IF NOT EXISTS {config.SQL_DATABASE}"
+    cursor.execute(query)
+    query = "CREATE TABLE IF NOT EXISTS history (id INT AUTO_INCREMENT, latitude DOUBLE NOT NULL, longitude DOUBLE NOT NULL, user_ip VARCHAR(50) NOT NULL, PRIMARY KEY (id));"
     cursor.execute(query)
     return
 
@@ -34,31 +47,31 @@ def create_table_in_BDD(cnx: mysql.connector.connect):
 def add_message_to_BDD(cnx: mysql.connector.connect, msg: dict):
     cursor = cnx.cursor()
     # add to BDD
-    query = f"INSERT INTO {config.SQL_TABLE} (user, latitude, longitude) VALUES ({msg['user']}, {msg['lat']}, {msg['long']})"
+    query = f"INSERT INTO {config.SQL_TABLE} (user, latitude, longitude) VALUES ({msg['user_ip']}, {msg['latitude']}, {msg['longitude']})"
     cursor.execute(query)
     cnx.commit()
     return
 
 
-def get_message_from_BDD(id:int, cnx: mysql.connector.connect=None, host:str=config.SQL_HOST, time:datetime=None):
+def get_message_from_BDD(ip:str, cnx: mysql.connector.connect=None, host:str=config.SQL_HOST, time:datetime=None):
     if cnx is None:
         cnx = connect_database(host)
     cursor = cnx.cursor()
 
     # read from BDD
-    query = f"SELECT * FROM {config.SQL_TABLE} where id={id}"
+    query = f"SELECT * FROM {config.SQL_TABLE} where user_ip={ip}"
     cursor.execute(query)
     result = cursor.fetchall()
     return result
 
 
-def get_latest_message_from_BDD(id:int, cnx: mysql.connector.connect=None, host:str=config.SQL_HOST, time:datetime=None):
+def get_latest_message_from_BDD(ip:str, cnx: mysql.connector.connect=None, host:str=config.SQL_HOST, time:datetime=None):
     if cnx is None:
         cnx = connect_database(host)
     cursor = cnx.cursor()
 
     # read from BDD
-    query = f"SELECT * FROM {config.SQL_TABLE} where id={id} ORDER BY id DESC LIMIT 1"
+    query = f"SELECT * FROM {config.SQL_TABLE} where user_ip={ip} ORDER BY id DESC LIMIT 1"
     cursor.execute(query)
     result = cursor.fetchall()
     return result
@@ -89,6 +102,7 @@ def read_messages():
 
     # Read messages from Kafka
     for message in consumer:
+        print(message)
         # convert to json
         msg = json.loads(message.value)
         add_message_to_BDD(cnx, msg)
