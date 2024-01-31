@@ -34,7 +34,7 @@ def generate_random_movement(current_lat: float, current_long: float):
     return new_lat, new_long
 
 if __name__ == "__main__":
-    user_id = 192.168.1.45
+    user_id = "192.168.1.45"
 
     # Create a Kafka producer
     producer = KafkaProducer(
