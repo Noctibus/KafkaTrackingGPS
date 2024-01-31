@@ -34,29 +34,33 @@ def generate_random_movement(current_lat: float, current_long: float):
     return new_lat, new_long
 
 if __name__ == "__main__":
-    user_id = "192.168.1.45"
+    n = int(sys.argv[1])
+    if n > 1 and n < 3:
+        user_ids = ["192.168.1.45", "192.168.4.37"]
 
-    # Create a Kafka producer
-    producer = KafkaProducer(
-        bootstrap_servers=config.KAFKA_SERVER_ADDRESS,
-        value_serializer=lambda v: json.dumps(v).encode('utf-8')
-    )
+        user_id = user_ids[n]
 
-    try:
-        while True:
-            # Generate random initial coordinates
-            lat = random.uniform(-90, 90).__round__(6)
-            long = random.uniform(-180, 180).__round__(6)
+        # Create a Kafka producer
+        producer = KafkaProducer(
+            bootstrap_servers=config.KAFKA_SERVER_ADDRESS,
+            value_serializer=lambda v: json.dumps(v).encode('utf-8')
+        )
 
-            # Simulate realistic movement
-            lat, long = generate_random_movement(lat, long)
+        try:
+            while True:
+                # Generate random initial coordinates
+                lat = random.uniform(-90, 90).__round__(6)
+                long = random.uniform(-180, 180).__round__(6)
 
-            # Call the function to send the location
-            send_location(producer, user_id, lat, long)
+                # Simulate realistic movement
+                lat, long = generate_random_movement(lat, long)
 
-            # Sleep for x milliseconds before the next iteration
-            time.sleep(10)  # Adjust the delay as needed
+                # Call the function to send the location
+                send_location(producer, user_id, lat, long)
 
-    finally:
-        # Close the Kafka producer
-        producer.close()
+                # Sleep for x milliseconds before the next iteration
+                time.sleep(10)  # Adjust the delay as needed
+
+        finally:
+            # Close the Kafka producer
+            producer.close()
