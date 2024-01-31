@@ -1,9 +1,13 @@
 # KafkaTrackingGPS
+## Suivi en direct des coordonnées lors d'un déplacement
 
+Lancement :
+- `docker-compose up --build` : démarrer les docker (kafka, database, angular). Il est possible de démarrer Kafka UI et phpmyadmin en retirant les commentaires associés.
+- `pip install -r kafka/requirements.txt` : installer les paquets python nécessaires au lancement du producer.
+- `python kafka/producer.py` : lancement du consumer pour reccueillir les données de Kafka et les insérer dans une BDD.
+- ouvrir une page web à l'adresse [http://localhost:4200](http://localhost:4200)
 
-## Kafka configuration
-Dans le dossier ```kafka``` se trouvent :
-- ```config.py``` : fichier de configuration contenant les variables à importer pour ne pas avoir à les modifier dans chacun des fichiers où elles sont utilisées
-- ```consumer.py``` : dans ce fichier se trouve la fonction à appeler et éxécuter pour lire les messages dans Kafka. Elle doit éxécuter une fonction qu'il faut écrire ou importer. Example : insertion dans BDD, envoie au front...
-- ```docker-compose.yml``` : fichier de configuration du docker Kafka : Kafka & Kafka UI
-- ```producer.py``` : dans ce fichier se trouve la fonction à éxécuter pour envoyer les données à Kafka. Requiert : id (int), latitude (float), longitude (float).
+Vous êtes prêts à voir évoluer la position.
+
+Pour lancer la génération de coordonnées, lancer le script producer.py :
+- `python kafka/producer.py n`, avec n=1 ou n=2 : c'est le choix d'une adresse ip.
