@@ -9,6 +9,7 @@ import { DocComponent } from './component/doc/doc.component';
 import { HeaderComponent } from './component/header/header.component';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { HttpClientModule } from '@angular/common/http';
+import { TrackingsocketComponent } from './component/trackingsocket/trackingsocket.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     TrackingComponent,
     DocComponent,
     HeaderComponent,
+    TrackingsocketComponent,
   ],
   imports: [
     BrowserModule,

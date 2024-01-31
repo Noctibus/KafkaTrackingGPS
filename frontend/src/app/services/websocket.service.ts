@@ -10,7 +10,7 @@ export class WebsocketService{
 
   constructor() {this.socket = io('http://localhost:8000/ws');}
 
-  connectToWebSocket(): Observable<any> {
+  connect(): Observable<any> {
     return new Observable<any>((observer) => {
       this.socket.on('message', (data: any) => {
         observer.next(data);
