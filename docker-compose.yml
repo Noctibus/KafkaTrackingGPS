@@ -10,7 +10,6 @@ services:
       - '/opt/bitnami/scripts/kafka/setup.sh && kafka-storage.sh format --config "$${KAFKA_CONF_FILE}" --cluster-id "lkorDA4qT6W1K_dk0LHvtg" --ignore-formatted  && /opt/bitnami/scripts/kafka/run.sh' # Kraft specific initialise
     environment:
       - ALLOW_PLAINTEXT_LISTENER=yes
-      # Start Kraft Setup (Kafka as Controller - no Zookeeper)
       - KAFKA_CFG_NODE_ID=1
       - KAFKA_CFG_BROKER_ID=1
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@127.0.0.1:9093
@@ -23,6 +22,8 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092,INTERNAL://kafka:9094
     ports:
       - "0.0.0.0:9092:9092"
+    networks:
+      - app-network
 
   # kafka-ui:
   #   image: provectuslabs/kafka-ui
@@ -35,6 +36,8 @@ services:
   #     KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9094
   #   depends_on:
   #     - kafka
+  #   networks:
+  #     - app-network
 
   db:
     image: mysql:latest
@@ -53,17 +56,50 @@ services:
     ports:
       - '3306:3306'
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: CYTECH24
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin:latest
+  #   container_name: phpmyadmin
+  #   restart: always
+  #   environment:
+  #     PMA_HOST: db
+  #     MYSQL_ROOT_PASSWORD: CYTECH24
+  #   ports:
+  #     - '8081:80'
+  #   networks:
+  #     - app-network
+
+
+
+  # angular-app:
+  #   image: trion/ng-cli:latest
+  #   container_name: angular-app
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app
+  #   ports:
+  #     - 4200:4200
+  #   command: bash -c "npm install && cd frontend && ng serve --host 0.0.0.0"
+  #   networks:
+  #     - app-network
+
+
+
+# run command line to start server.py that is a fastapi server
+  fastapi:
+    image: python:3.11
+    container_name: fastapi
+    depends_on:
+      - kafka
+      # - db
+    working_dir: /app
+    volumes:
+      - ./:/app
     ports:
-      - '8081:80'
+      - 8000:8000
+    command: bash -c "pip install -r requirements.txt && cd kafka && python main.py"
     networks:
       - app-network
+
 networks:
   app-network:
     driver: bridge

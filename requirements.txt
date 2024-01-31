@@ -1,0 +1,11 @@
+fastapi
+folium
+geopy
+uvicorn
+kafka-python
+psycopg2
+uvicorn[standard]
+websockets
+wsproto
+mysql-connector-python==8.3.0
+aiokafka
