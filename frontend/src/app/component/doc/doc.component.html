@@ -1,0 +1,189 @@
+<app-header></app-header>
+
+<div class="content text-center pt-20">
+    <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">
+        Documentation de l'Application Tracking GPS
+    </h1>
+    <div class="mt-10 mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48">
+        <p>Bienvenue dans la documentation de l'application Tracking GPS développée par Lucas Pauzies. Cette application
+            simule l'IoT d'un système de suivi GPS en temps réel, utilisant une architecture microservices.</p>
+    </div>
+</div>
+
+<div class="mt-20 ml-36 mr-36">
+    <h3 class="text-xl font-extrabold leading-none tracking-tight text-gray-900">
+        Objectif du Projet
+    </h3>
+    <div class="mt-10 text-lg font-normal text-gray-500">
+        <p>L'objectif principal de ce projet est de créer une application de suivi GPS avec l'affichage en temps réel de
+            la position des machines sur une carte. L'architecture microservices mise en place consiste en un broker
+            Kafka accessible depuis deux machines physiques (IP1, IP2), deux producteurs Kafka générant des coordonnées
+            GPS cohérentes, un consommateur Kafka stockant ces informations dans une base de données PostgreSQL, et une
+            API FastAPI fournissant des routes pour récupérer les données en temps réel. Un frontend utilisant une
+            librairie de cartographie (par exemple, Leaflet) affiche la position des machines sur la carte.</p>
+    </div>
+</div>
+
+<div class="mt-10 ml-36 mr-36">
+    <h3 class="text-xl font-extrabold leading-none tracking-tight text-gray-900">
+        Architecture du Projet
+    </h3>
+    <div class="mt-10 text-lg font-normal text-gray-500">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="1000px"
+            height="321px" viewBox="-0.5 -0.5 1401 321"
+            content="&lt;mxfile host=&quot;app.diagrams.net&quot; modified=&quot;2024-01-29T21:34:42.400Z&quot; agent=&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36&quot; etag=&quot;sttNEh9c4omrBoL3rz1e&quot; version=&quot;23.0.2&quot; type=&quot;google&quot; scale=&quot;1&quot; border=&quot;0&quot;&gt;&#10;  &lt;diagram name=&quot;Page-1&quot; id=&quot;9Cm3_Heym2ltk1KKJ0Px&quot;&gt;&#10;    &lt;mxGraphModel dx=&quot;2927&quot; dy=&quot;1060&quot; grid=&quot;1&quot; gridSize=&quot;10&quot; guides=&quot;1&quot; tooltips=&quot;1&quot; connect=&quot;1&quot; arrows=&quot;1&quot; fold=&quot;1&quot; page=&quot;1&quot; pageScale=&quot;1&quot; pageWidth=&quot;827&quot; pageHeight=&quot;1169&quot; math=&quot;0&quot; shadow=&quot;0&quot;&gt;&#10;      &lt;root&gt;&#10;        &lt;mxCell id=&quot;0&quot; /&gt;&#10;        &lt;mxCell id=&quot;1&quot; parent=&quot;0&quot; /&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-15&quot; style=&quot;edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;MtCjzoMQz0mVfHsLvf34-2&quot; target=&quot;MtCjzoMQz0mVfHsLvf34-11&quot;&gt;&#10;          &lt;mxGeometry relative=&quot;1&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-2&quot; value=&quot;&quot; style=&quot;shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://cdn.icon-icons.com/icons2/2248/PNG/512/apache_kafka_icon_138937.png;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;&#10;          &lt;mxGeometry x=&quot;160&quot; y=&quot;160&quot; width=&quot;160&quot; height=&quot;160&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-5&quot; value=&quot;PRODUCER 1&quot; style=&quot;rounded=0;whiteSpace=wrap;html=1;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;&#10;          &lt;mxGeometry x=&quot;-200&quot; y=&quot;80&quot; width=&quot;200&quot; height=&quot;80&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-6&quot; value=&quot;Coordinates TOPICS&quot; style=&quot;rounded=1;whiteSpace=wrap;html=1;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;&#10;          &lt;mxGeometry x=&quot;180&quot; y=&quot;330&quot; width=&quot;120&quot; height=&quot;60&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-7&quot; value=&quot;PRODUCER 2&quot; style=&quot;rounded=0;whiteSpace=wrap;html=1;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;&#10;          &lt;mxGeometry x=&quot;-200&quot; y=&quot;320&quot; width=&quot;200&quot; height=&quot;80&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-8&quot; value=&quot;&quot; style=&quot;endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;MtCjzoMQz0mVfHsLvf34-7&quot; target=&quot;MtCjzoMQz0mVfHsLvf34-2&quot;&gt;&#10;          &lt;mxGeometry width=&quot;50&quot; height=&quot;50&quot; relative=&quot;1&quot; as=&quot;geometry&quot;&gt;&#10;            &lt;mxPoint x=&quot;20&quot; y=&quot;270&quot; as=&quot;sourcePoint&quot; /&gt;&#10;            &lt;mxPoint x=&quot;70&quot; y=&quot;220&quot; as=&quot;targetPoint&quot; /&gt;&#10;          &lt;/mxGeometry&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-9&quot; value=&quot;&quot; style=&quot;endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;MtCjzoMQz0mVfHsLvf34-5&quot; target=&quot;MtCjzoMQz0mVfHsLvf34-2&quot;&gt;&#10;          &lt;mxGeometry width=&quot;50&quot; height=&quot;50&quot; relative=&quot;1&quot; as=&quot;geometry&quot;&gt;&#10;            &lt;mxPoint x=&quot;10&quot; y=&quot;350&quot; as=&quot;sourcePoint&quot; /&gt;&#10;            &lt;mxPoint x=&quot;170&quot; y=&quot;290&quot; as=&quot;targetPoint&quot; /&gt;&#10;          &lt;/mxGeometry&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-11&quot; value=&quot;CONSUMER&quot; style=&quot;rounded=0;whiteSpace=wrap;html=1;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;&#10;          &lt;mxGeometry x=&quot;400&quot; y=&quot;200&quot; width=&quot;200&quot; height=&quot;80&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-14&quot; value=&quot;&quot; style=&quot;rounded=0;whiteSpace=wrap;html=1;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;&#10;          &lt;mxGeometry x=&quot;680&quot; y=&quot;200&quot; width=&quot;200&quot; height=&quot;80&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-18&quot; value=&quot;&quot; style=&quot;endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;MtCjzoMQz0mVfHsLvf34-11&quot; target=&quot;MtCjzoMQz0mVfHsLvf34-14&quot;&gt;&#10;          &lt;mxGeometry width=&quot;50&quot; height=&quot;50&quot; relative=&quot;1&quot; as=&quot;geometry&quot;&gt;&#10;            &lt;mxPoint x=&quot;710&quot; y=&quot;90&quot; as=&quot;sourcePoint&quot; /&gt;&#10;            &lt;mxPoint x=&quot;760&quot; y=&quot;40&quot; as=&quot;targetPoint&quot; /&gt;&#10;          &lt;/mxGeometry&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-19&quot; value=&quot;Interface Web&quot; style=&quot;swimlane;whiteSpace=wrap;html=1;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;&#10;          &lt;mxGeometry x=&quot;1000&quot; y=&quot;160&quot; width=&quot;200&quot; height=&quot;160&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-25&quot; value=&quot;&quot; style=&quot;shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://angular.io/assets/images/logos/angular/angular.png;&quot; vertex=&quot;1&quot; parent=&quot;MtCjzoMQz0mVfHsLvf34-19&quot;&gt;&#10;          &lt;mxGeometry x=&quot;55&quot; y=&quot;50&quot; width=&quot;90&quot; height=&quot;90&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-22&quot; value=&quot;&quot; style=&quot;endArrow=classic;startArrow=classic;html=1;rounded=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;exitX=1;exitY=0.5;exitDx=0;exitDy=0;&quot; edge=&quot;1&quot; parent=&quot;1&quot; source=&quot;MtCjzoMQz0mVfHsLvf34-14&quot; target=&quot;MtCjzoMQz0mVfHsLvf34-19&quot;&gt;&#10;          &lt;mxGeometry width=&quot;50&quot; height=&quot;50&quot; relative=&quot;1&quot; as=&quot;geometry&quot;&gt;&#10;            &lt;mxPoint x=&quot;890&quot; y=&quot;240&quot; as=&quot;sourcePoint&quot; /&gt;&#10;            &lt;mxPoint x=&quot;690&quot; y=&quot;250&quot; as=&quot;targetPoint&quot; /&gt;&#10;          &lt;/mxGeometry&gt;&#10;        &lt;/mxCell&gt;&#10;        &lt;mxCell id=&quot;MtCjzoMQz0mVfHsLvf34-26&quot; value=&quot;&quot; style=&quot;shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://upload.wikimedia.org/wikiversity/en/thumb/8/8c/FastAPI_logo.png/800px-FastAPI_logo.png;&quot; vertex=&quot;1&quot; parent=&quot;1&quot;&gt;&#10;          &lt;mxGeometry x=&quot;696.25&quot; y=&quot;209.74&quot; width=&quot;167.5&quot; height=&quot;60.51&quot; as=&quot;geometry&quot; /&gt;&#10;        &lt;/mxCell&gt;&#10;      &lt;/root&gt;&#10;    &lt;/mxGraphModel&gt;&#10;  &lt;/diagram&gt;&#10;&lt;/mxfile&gt;&#10;">
+            <defs />
+            <g>
+                <path d="M 520 160 L 593.63 160" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10"
+                    pointer-events="stroke" />
+                <path d="M 598.88 160 L 591.88 163.5 L 593.63 160 L 591.88 156.5 Z" fill="rgb(0, 0, 0)"
+                    stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" />
+                <image x="359.5" y="79.5" width="160" height="160"
+                    xlink:href="https://cdn.icon-icons.com/icons2/2248/PNG/512/apache_kafka_icon_138937.png"
+                    preserveAspectRatio="none" />
+                <rect x="0" y="0" width="200" height="80" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)"
+                    pointer-events="all" />
+                <g transform="translate(-0.5 -0.5)">
+                    <switch>
+                        <foreignObject pointer-events="none" width="100%" height="100%"
+                            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+                            style="overflow: visible; text-align: left;">
+                            <div xmlns="http://www.w3.org/1999/xhtml"
+                                style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 40px; margin-left: 1px;">
+                                <div data-drawio-colors="color: rgb(0, 0, 0); "
+                                    style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                                    <div
+                                        style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                        PRODUCER 1</div>
+                                </div>
+                            </div>
+                        </foreignObject><text x="100" y="44" fill="rgb(0, 0, 0)" font-family="Helvetica"
+                            font-size="12px" text-anchor="middle">PRODUCER 1</text>
+                    </switch>
+                </g>
+                <rect x="380" y="250" width="120" height="60" rx="9" ry="9" fill="rgb(255, 255, 255)"
+                    stroke="rgb(0, 0, 0)" pointer-events="all" />
+                <g transform="translate(-0.5 -0.5)">
+                    <switch>
+                        <foreignObject pointer-events="none" width="100%" height="100%"
+                            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+                            style="overflow: visible; text-align: left;">
+                            <div xmlns="http://www.w3.org/1999/xhtml"
+                                style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 118px; height: 1px; padding-top: 280px; margin-left: 381px;">
+                                <div data-drawio-colors="color: rgb(0, 0, 0); "
+                                    style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                                    <div
+                                        style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                        Coordinates TOPICS</div>
+                                </div>
+                            </div>
+                        </foreignObject><text x="440" y="284" fill="rgb(0, 0, 0)" font-family="Helvetica"
+                            font-size="12px" text-anchor="middle">Coordinates TOPICS</text>
+                    </switch>
+                </g>
+                <rect x="0" y="240" width="200" height="80" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)"
+                    pointer-events="all" />
+                <g transform="translate(-0.5 -0.5)">
+                    <switch>
+                        <foreignObject pointer-events="none" width="100%" height="100%"
+                            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+                            style="overflow: visible; text-align: left;">
+                            <div xmlns="http://www.w3.org/1999/xhtml"
+                                style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 280px; margin-left: 1px;">
+                                <div data-drawio-colors="color: rgb(0, 0, 0); "
+                                    style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                                    <div
+                                        style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                        PRODUCER 2</div>
+                                </div>
+                            </div>
+                        </foreignObject><text x="100" y="284" fill="rgb(0, 0, 0)" font-family="Helvetica"
+                            font-size="12px" text-anchor="middle">PRODUCER 2</text>
+                    </switch>
+                </g>
+                <path d="M 200 260 L 354.04 202.24" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10"
+                    pointer-events="stroke" />
+                <path d="M 358.95 200.39 L 353.63 206.13 L 354.04 202.24 L 351.17 199.57 Z" fill="rgb(0, 0, 0)"
+                    stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" />
+                <path d="M 200 60 L 354.04 117.76" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10"
+                    pointer-events="stroke" />
+                <path d="M 358.95 119.61 L 351.17 120.43 L 354.04 117.76 L 353.63 113.87 Z" fill="rgb(0, 0, 0)"
+                    stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" />
+                <rect x="600" y="120" width="200" height="80" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)"
+                    pointer-events="all" />
+                <g transform="translate(-0.5 -0.5)">
+                    <switch>
+                        <foreignObject pointer-events="none" width="100%" height="100%"
+                            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+                            style="overflow: visible; text-align: left;">
+                            <div xmlns="http://www.w3.org/1999/xhtml"
+                                style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 160px; margin-left: 601px;">
+                                <div data-drawio-colors="color: rgb(0, 0, 0); "
+                                    style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                                    <div
+                                        style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                        CONSUMER</div>
+                                </div>
+                            </div>
+                        </foreignObject><text x="700" y="164" fill="rgb(0, 0, 0)" font-family="Helvetica"
+                            font-size="12px" text-anchor="middle">CONSUMER</text>
+                    </switch>
+                </g>
+                <rect x="880" y="120" width="200" height="80" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)"
+                    pointer-events="all" />
+                <path d="M 806.37 160 L 873.63 160" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10"
+                    pointer-events="stroke" />
+                <path d="M 801.12 160 L 808.12 156.5 L 806.37 160 L 808.12 163.5 Z" fill="rgb(0, 0, 0)"
+                    stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" />
+                <path d="M 878.88 160 L 871.88 163.5 L 873.63 160 L 871.88 156.5 Z" fill="rgb(0, 0, 0)"
+                    stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" />
+                <path d="M 1200 103 L 1200 80 L 1400 80 L 1400 103" fill="rgb(255, 255, 255)" stroke="rgb(0, 0, 0)"
+                    stroke-miterlimit="10" pointer-events="all" />
+                <path d="M 1200 103 L 1200 240 L 1400 240 L 1400 103" fill="none" stroke="rgb(0, 0, 0)"
+                    stroke-miterlimit="10" pointer-events="none" />
+                <path d="M 1200 103 L 1400 103" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10"
+                    pointer-events="none" />
+                <g transform="translate(-0.5 -0.5)">
+                    <switch>
+                        <foreignObject pointer-events="none" width="100%" height="100%"
+                            requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+                            style="overflow: visible; text-align: left;">
+                            <div xmlns="http://www.w3.org/1999/xhtml"
+                                style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 198px; height: 1px; padding-top: 92px; margin-left: 1201px;">
+                                <div data-drawio-colors="color: rgb(0, 0, 0); "
+                                    style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                                    <div
+                                        style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; font-weight: bold; white-space: normal; overflow-wrap: normal;">
+                                        Interface Web</div>
+                                </div>
+                            </div>
+                        </foreignObject><text x="1300" y="95" fill="rgb(0, 0, 0)" font-family="Helvetica"
+                            font-size="12px" text-anchor="middle" font-weight="bold">Interface Web</text>
+                    </switch>
+                </g>
+                <image x="1254.5" y="129.5" width="90" height="90"
+                    xlink:href="https://angular.io/assets/images/logos/angular/angular.png"
+                    preserveAspectRatio="none" />
+                <path d="M 1086.37 160 L 1193.63 160" fill="none" stroke="rgb(0, 0, 0)" stroke-miterlimit="10"
+                    pointer-events="stroke" />
+                <path d="M 1081.12 160 L 1088.12 156.5 L 1086.37 160 L 1088.12 163.5 Z" fill="rgb(0, 0, 0)"
+                    stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" />
+                <path d="M 1198.88 160 L 1191.88 163.5 L 1193.63 160 L 1191.88 156.5 Z" fill="rgb(0, 0, 0)"
+                    stroke="rgb(0, 0, 0)" stroke-miterlimit="10" pointer-events="all" />
+                <image x="895.75" y="129.24" width="167.5" height="60.51"
+                    xlink:href="https://upload.wikimedia.org/wikiversity/en/thumb/8/8c/FastAPI_logo.png/800px-FastAPI_logo.png"
+                    preserveAspectRatio="none" />
+            </g>
+        </svg>
+    </div>
+</div>
+<div class="mt-10 ml-36 mr-36">
+    <h3 class="text-xl font-extrabold leading-none tracking-tight text-gray-900">
+        Auteur
+    </h3>
+    <div class="mt-10 text-lg font-normal text-gray-500">
+        <p>De Cenival Stanislas</p>
+        <p>Ibsaine Brahim</p>
+        <p>Madrelle Alexis</p>
+    </div>
+</div>
