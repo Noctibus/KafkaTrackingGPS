@@ -55,7 +55,7 @@ if __name__ == "__main__":
             send_location(producer, user_id, lat, long)
 
             # Sleep for x milliseconds before the next iteration
-            time.sleep(500)  # Adjust the delay as needed
+            time.sleep(10)  # Adjust the delay as needed
 
     finally:
         # Close the Kafka producer

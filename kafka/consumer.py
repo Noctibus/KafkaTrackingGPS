@@ -2,7 +2,6 @@ from kafka import KafkaConsumer
 import json
 import config
 import mysql.connector
-from pprint import pprint
 from datetime import datetime
 
 
@@ -47,7 +46,7 @@ def initiate_database(cnx: mysql.connector.connect=None, host:str=config.SQL_HOS
 def add_message_to_BDD(cnx: mysql.connector.connect, msg: dict):
     cursor = cnx.cursor()
     # add to BDD
-    query = f"INSERT INTO {config.SQL_TABLE} (user, latitude, longitude) VALUES ({msg['user_ip']}, {msg['latitude']}, {msg['longitude']})"
+    query = f"INSERT INTO {config.SQL_TABLE} (user_ip, latitude, longitude) VALUES ('{msg['user_ip']}', {msg['latitude']}, {msg['longitude']})"
     cursor.execute(query)
     cnx.commit()
     return
@@ -71,9 +70,9 @@ def get_latest_message_from_BDD(ip:str, cnx: mysql.connector.connect=None, host:
     cursor = cnx.cursor()
 
     # read from BDD
-    query = f"SELECT * FROM {config.SQL_TABLE} where user_ip={ip} ORDER BY id DESC LIMIT 1"
+    query = f"SELECT * FROM {config.SQL_TABLE} where user_ip='{ip}' ORDER BY id DESC LIMIT 1"
     cursor.execute(query)
-    result = cursor.fetchall()
+    result = cursor.fetchall()[0]
     return result
 
 def kafka_consumer(bootstrap_servers:str = config.KAFKA_SERVER_ADDRESS):
@@ -102,7 +101,6 @@ def read_messages():
 
     # Read messages from Kafka
     for message in consumer:
-        print(message)
         # convert to json
         msg = json.loads(message.value)
         add_message_to_BDD(cnx, msg)
