@@ -1,6 +1,0 @@
-fastapi
-folium
-geopy
-uvicorn
-kafka-python
-psycopg2

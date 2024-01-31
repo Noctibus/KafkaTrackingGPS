@@ -3,13 +3,18 @@ from kafka import KafkaProducer
 import random
 import time
 import config
+import sys
+
 
 def send_location(producer, user_id: str, lat: float, long: float):
     # Get variables from config file
+
     topic_name = config.KAFKA_TOPIC
 
     # Create a message
+
     message = {"ip_user": user_id, "lat": lat, "long": long}
+
 
     # Use the JSON serializer of the Kafka producer
     producer.send(topic_name, value=message)
