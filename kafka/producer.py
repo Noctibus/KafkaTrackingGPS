@@ -2,10 +2,11 @@ import json
 from kafka import KafkaProducer
 import random
 import config
+import sys
 
 
 # Send message to Kafka.
-def send_location(id:int, lat:float, long:float):
+def send_location(user:int, lat:float, long:float):
     # Get variables from config filr
     topic_name = config.KAFKA_TOPIC
     bootstrap_servers = config.KAFKA_SERVER_ADDRESS
@@ -14,7 +15,7 @@ def send_location(id:int, lat:float, long:float):
     producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 
     # Create a message
-    message = {"id":id, "lat": lat, "long": long}
+    message = {"user":user, "lat": lat, "long": long}
     message_json = json.dumps(message).encode("utf-8")
 
     # Send the message
@@ -27,10 +28,10 @@ def send_location(id:int, lat:float, long:float):
 
 if __name__ == "__main__":
 
-    id = 0
+    user = sys.argv[1]
     # random lat/long for example
     lat = random.uniform(-90, 90).__round__(6)
     long = random.uniform(-180, 180).__round__(6)
 
     # Call the function to send the location
-    send_location(id, lat, long)
+    send_location(user, lat, long)

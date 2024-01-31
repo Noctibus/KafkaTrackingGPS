@@ -2,22 +2,16 @@ from kafka import KafkaConsumer
 import json
 import config
 import mysql.connector
+from pprint import pprint
+from datetime import datetime
 
 
-def connect_database():
+def connect_database(host:str=config.SQL_HOST):
     user     = config.SQL_USER
     password = config.SQL_PASSWORD
-    host     = config.SQL_HOST
     database = config.SQL_DATABASE
     auth     = config.SQL_AUTH
     port     = config.SQL_PORT
-    # print("Connecting to database...")
-    # print(f"User: {user}")
-    # print(f"Password: {password}")
-    # print(f"Host: {host}")
-    # print(f"Database: {database}")
-    # print(f"Auth: {auth}")
-    # print(f"Port: {port}")
     cnx = mysql.connector.connect(
         host        = host,
         user        = user,
@@ -26,52 +20,50 @@ def connect_database():
         auth_plugin = auth,
         port        = port
     )
-    print("Done")
     return cnx
 
 
 def create_table_in_BDD(cnx: mysql.connector.connect):
-    print("Creating table in BDD...")
     cursor = cnx.cursor()
     # create table
     query = f"CREATE TABLE {config.SQL_TABLE} (id INT PRIMARY KEY, latitude FLOAT, longitude FLOAT)"
-    print(query)
     cursor.execute(query)
-    print("Done")
     return
 
 
 def add_message_to_BDD(cnx: mysql.connector.connect, msg: dict):
-    print("Adding message to BDD...")
     cursor = cnx.cursor()
     # add to BDD
-    query = f"INSERT INTO {config.SQL_TABLE} (id, latitude, longitude) VALUES ({msg['id']}, {msg['lat']}, {msg['long']})"
-    print(query)
+    query = f"INSERT INTO {config.SQL_TABLE} (user, latitude, longitude) VALUES ({msg['user']}, {msg['lat']}, {msg['long']})"
     cursor.execute(query)
     cnx.commit()
-    print("Done")
     return
 
 
-def get_message_from_BDD(cnx: mysql.connector.connect):
-    print("Getting message from BDD...")
+def get_message_from_BDD(id:int, cnx: mysql.connector.connect=None, host:str=config.SQL_HOST, time:datetime=None):
+    if cnx is None:
+        cnx = connect_database(host)
     cursor = cnx.cursor()
 
     # read from BDD
-    query = f"SELECT * FROM {config.SQL_TABLE}"
-    print(query)
+    query = f"SELECT * FROM {config.SQL_TABLE} where id={id}"
     cursor.execute(query)
     result = cursor.fetchall()
-    print(result)
-    print("Done")
-    return
+    return result
 
 
-# Read messages from Kafka.
-def read_messages():
-    # Initiate BDD connection
-    cnx = connect_database()
+def get_latest_message_from_BDD(id:int, cnx: mysql.connector.connect=None, host:str=config.SQL_HOST, time:datetime=None):
+    if cnx is None:
+        cnx = connect_database(host)
+    cursor = cnx.cursor()
 
+    # read from BDD
+    query = f"SELECT * FROM {config.SQL_TABLE} where id={id} ORDER BY id DESC LIMIT 1"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    return result
+
+def kafka_consumer(bootstrap_servers:str = config.KAFKA_SERVER_ADDRESS):
     # Get variables from config file
     topic = config.KAFKA_TOPIC
     bootstra_servers = config.KAFKA_SERVER_ADDRESS
@@ -81,16 +73,25 @@ def read_messages():
         topic,
         bootstrap_servers=bootstra_servers,
         auto_offset_reset="earliest",
-        group_id="consumer-group-a"
+        group_id="consumer-1"
     )
+
+    return consumer
+
+
+
+# Read messages from Kafka.
+def read_messages():
+    # Initiate BDD connection
+    cnx = connect_database()
+
+    consumer = kafka_consumer("kafka:9092")
 
     # Read messages from Kafka
     for message in consumer:
         # convert to json
         msg = json.loads(message.value)
-        #TODO import func from package, or define func above ; and execute it as following :
-        # func(msg) ; with msg = {"id":un id, "lat": une latitude, "long": une longitude}
-        get_message_from_BDD(cnx)
+        add_message_to_BDD(cnx, msg)
 
 
 
