@@ -78,12 +78,12 @@ def get_latest_message_from_BDD(ip:str, cnx: mysql.connector.connect=None, host:
 def kafka_consumer(bootstrap_servers:str = config.KAFKA_SERVER_ADDRESS):
     # Get variables from config file
     topic = config.KAFKA_TOPIC
-    bootstra_servers = config.KAFKA_SERVER_ADDRESS
+    bootstrap_servers = config.KAFKA_SERVER_ADDRESS
 
     # Create a Kafka consumer
     consumer = KafkaConsumer(
         topic,
-        bootstrap_servers=bootstra_servers,
+        bootstrap_servers=bootstrap_servers,
         auto_offset_reset="earliest",
         group_id="consumer-1"
     )
@@ -93,23 +93,21 @@ def kafka_consumer(bootstrap_servers:str = config.KAFKA_SERVER_ADDRESS):
 
 
 # Read messages from Kafka.
-def read_messages():
+def read_messages(host:str=config.SQL_HOST, bootstrap_servers:str=config.KAFKA_SERVER_ADDRESS):
     # Initiate BDD connection
-    cnx = connect_database()
+    cnx = connect_database(host=host)
 
-    consumer = kafka_consumer("kafka:9092")
+    consumer = kafka_consumer(bootstrap_servers=bootstrap_servers)
 
     # Read messages from Kafka
     for message in consumer:
         # convert to json
         msg = json.loads(message.value)
+        print(msg)
         add_message_to_BDD(cnx, msg)
 
 
 
 if __name__ == "__main__":
-    # cnx = connect_database()
-    # msg = {"id":1, "lat": 1.0, "long": 1.0}
-    # create_table_in_BDD(cnx)
-    # add_message_to_BDD(cnx, msg)
-    read_messages()
+    # read_messages(host="database", bootstrap_servers="kafka:9092")
+    read_messages(host="localhost")

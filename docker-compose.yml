@@ -25,19 +25,19 @@ services:
     networks:
       - app-network
 
-  kafka-ui:
-    image: provectuslabs/kafka-ui
-    container_name: kafka-ui
-    ports:
-      - "8080:8080"
-    restart: "always"
-    environment:
-      KAFKA_CLUSTERS_0_NAME: "trackingGPS"
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9094
-    depends_on:
-      - kafka
-    networks:
-      - app-network
+  # kafka-ui:
+  #   image: provectuslabs/kafka-ui
+  #   container_name: kafka-ui
+  #   ports:
+  #     - "8080:8080"
+  #   restart: "always"
+  #   environment:
+  #     KAFKA_CLUSTERS_0_NAME: "trackingGPS"
+  #     KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9094
+  #   depends_on:
+  #     - kafka
+  #   networks:
+  #     - app-network
 
   db:
     image: mysql:latest
@@ -57,58 +57,58 @@ services:
       - '3306:3306'
 
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: phpmyadmin
-    restart: always
-    environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: CYTECH24
-    ports:
-      - '8081:80'
-    networks:
-      - app-network
-
-
-
-  # angular-app:
-  #   image: trion/ng-cli:latest
-  #   container_name: angular-app
-  #   working_dir: /app
-  #   volumes:
-  #     - ./:/app
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin:latest
+  #   container_name: phpmyadmin
+  #   restart: always
+  #   environment:
+  #     PMA_HOST: db
+  #     MYSQL_ROOT_PASSWORD: CYTECH24
   #   ports:
-  #     - 4200:4200
-  #   command: bash -c "npm install && cd frontend && ng serve --host 0.0.0.0"
+  #     - '8081:80'
   #   networks:
   #     - app-network
 
 
 
-  fastapi:
-    image: python:3.11
-    container_name: fastapi
-    depends_on:
-      - kafka
-    working_dir: /app
+  angular-app:
+    image: trion/ng-cli:17.0.3
+    container_name: angular-app
+    working_dir: /app/frontend
     volumes:
       - ./:/app
     ports:
-      - 8000:8000
-    command: bash -c "pip install -r requirements.txt && cd kafka && python api.py"
+      - 4200:4200
+    command: bash -c "npm install && ng serve --host 0.0.0.0"
     networks:
       - app-network
 
 
-  python:
-    image: python:3.11
-    container_name: python
-    working_dir: /app
-    volumes:
-      - ./:/app
-    command: bash -c "pip install -r requirements.txt && cd kafka && python consumer.py"
-    networks:
-      - app-network
+
+  # fastapi:
+  #   image: python:3.11
+  #   container_name: fastapi
+  #   depends_on:
+  #     - kafka
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app
+  #   ports:
+  #     - 8000:8000
+  #   command: bash -c "pip install -r requirements.txt && cd kafka && python api.py"
+  #   networks:
+  #     - app-network
+
+
+  # python:
+  #   image: python:3.11
+  #   container_name: python
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app
+  #   command: bash -c "pip install -r requirements.txt && cd kafka && python consumer.py"
+  #   networks:
+  #     - app-network
 
 
 
