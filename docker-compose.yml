@@ -56,6 +56,7 @@ services:
     ports:
       - '3306:3306'
 
+
   # phpmyadmin:
   #   image: phpmyadmin/phpmyadmin:latest
   #   container_name: phpmyadmin
@@ -70,35 +71,46 @@ services:
 
 
 
-  # angular-app:
-  #   image: trion/ng-cli:latest
-  #   container_name: angular-app
+  angular-app:
+    image: trion/ng-cli:17.0.3
+    container_name: angular-app
+    working_dir: /app/frontend
+    volumes:
+      - ./:/app
+    ports:
+      - 4200:4200
+    command: bash -c "npm install && ng serve --host 0.0.0.0"
+    networks:
+      - app-network
+
+
+
+  # fastapi:
+  #   image: python:3.11
+  #   container_name: fastapi
+  #   depends_on:
+  #     - kafka
   #   working_dir: /app
   #   volumes:
   #     - ./:/app
   #   ports:
-  #     - 4200:4200
-  #   command: bash -c "npm install && cd frontend && ng serve --host 0.0.0.0"
+  #     - 8000:8000
+  #   command: bash -c "pip install -r requirements.txt && cd kafka && python api.py"
   #   networks:
   #     - app-network
 
 
+  # python:
+  #   image: python:3.11
+  #   container_name: python
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app
+  #   command: bash -c "pip install -r requirements.txt && cd kafka && python consumer.py"
+  #   networks:
+  #     - app-network
 
-# run command line to start server.py that is a fastapi server
-  fastapi:
-    image: python:3.11
-    container_name: fastapi
-    depends_on:
-      - kafka
-      # - db
-    working_dir: /app
-    volumes:
-      - ./:/app
-    ports:
-      - 8000:8000
-    command: bash -c "pip install -r requirements.txt && cd kafka && python main.py"
-    networks:
-      - app-network
+
 
 networks:
   app-network:
