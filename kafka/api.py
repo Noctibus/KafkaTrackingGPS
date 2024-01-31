@@ -9,7 +9,6 @@ app = FastAPI(
 )
 loop = asyncio.get_event_loop()
 
-
 origins = [
     "http://localhost",
     "http://localhost:4200",
@@ -27,29 +26,20 @@ app.add_middleware(
 async def index():
     return {"message": "Welcome on our API"}
 
-fake_data = {
-    "IP1": [
-        {"latitude": 43.2953, "longitude": -0.3700},
-        {"latitude": 43.2944, "longitude": -0.3705},
-        {"latitude": 43.2981, "longitude": -0.3708},
-    ],
-    "IP2": [
-        {"latitude": 40.7128, "longitude": -74.0060},
-        {"latitude": 40.7129, "longitude": -74.005},
-        {"latitude": 40.713, "longitude": -74.004},
-    ],
-}
+fake_data = [
+    {"latitude": 43.2953, "longitude": -0.3700},
+    {"latitude": 43.2944, "longitude": -0.3705},
+    {"latitude": 43.2981, "longitude": -0.3708},
+    {"latitude": 40.7128, "longitude": -74.0060},
+    {"latitude": 40.7129, "longitude": -74.005},
+    {"latitude": 40.713, "longitude": -74.004},
+]
 
-@app.get("/fake-gps/{machine_id}")
-async def get_fake_gps(machine_id: str):
-    if machine_id not in fake_data:
-        return {"error": "Machine not found"}
-
-    return fake_data[machine_id]
+@app.get("/test")
+async def get_fake_gps():
+    return fake_data
 
 @app.get("/ws")
-async def get_fake_gps(machine_id: str):
-    if machine_id not in fake_data:
-        return {"error": "Machine not found"}
+async def get_fake_gps():
+    return fake_data
 
-    return fake_data[machine_id]

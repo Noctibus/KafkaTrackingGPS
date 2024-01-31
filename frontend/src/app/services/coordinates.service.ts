@@ -7,12 +7,11 @@ import { Observable } from 'rxjs';
 })
 export class CoordinatesService {
 
-  private baseFastAPIurl = 'http://127.0.0.1:8000/';
+  private baseFastAPIurl = 'http://127.0.0.1:8000/test';
 
   constructor(private http: HttpClient) { }
 
-  getCoordinates(machine_ID : string): Observable<any> {
-    const url = `${this.baseFastAPIurl}/fake-gps/${machine_ID}`;
-    return this.http.get(this.baseFastAPIurl + 'fake-gps/IP1');
+  getCoordinates(): Observable<any> {
+    return this.http.get(this.baseFastAPIurl);
   }
 }

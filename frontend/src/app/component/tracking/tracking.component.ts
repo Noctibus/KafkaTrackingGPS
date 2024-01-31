@@ -47,7 +47,7 @@ export class TrackingComponent implements OnInit {
     // Use interval to trigger the API call every 5 seconds
     interval(3000)
       .pipe(
-        switchMap(() => this.coordinatesService.getCoordinates(this.machine_ID)),
+        switchMap(() => this.coordinatesService.getCoordinates()),
         takeUntil(this.destroy$)
       )
       .subscribe((data: any) => {
