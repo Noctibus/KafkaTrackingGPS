@@ -1,5 +1,5 @@
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
+from fastapi import FastAPI, WebSocket
 import asyncio
 
 app = FastAPI(
@@ -32,14 +32,25 @@ fake_data = [
     {"latitude": 43.2981, "longitude": -0.3708},
     {"latitude": 40.7128, "longitude": -74.0060},
     {"latitude": 40.7129, "longitude": -74.005},
-    {"latitude": 40.713, "longitude": -74.004},
+    {"latitude": 43.3000, "longitude": -0.366667},
 ]
 
 @app.get("/test")
 async def get_fake_gps():
     return fake_data
 
-@app.get("/ws")
-async def get_fake_gps():
-    return fake_data
+active_connections = {}
 
+@app.get("/ws")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+
+    try:
+        while True:
+            await asyncio.sleep(1)
+            for gps_data in fake_data:
+                await websocket.send_json(gps_data)
+    except Exception as e:
+        print(f"WebSocket error: {e}")
+    finally:
+        await websocket.close()
