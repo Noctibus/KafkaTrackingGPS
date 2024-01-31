@@ -1,6 +1,4 @@
-// models/coordinates.model.ts
-
-export class Coordinates {
+export class coordinates {
     constructor(
         public latitude: number,
         public longitude: number,

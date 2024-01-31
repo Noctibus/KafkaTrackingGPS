@@ -7,8 +7,7 @@ import { WebsocketService } from '../../services/websocket.service';
 import { coordinates } from '../../model/coordinates.model';
 import { icon, Marker } from 'leaflet';
 
-import { interval, Subject } from 'rxjs';
-import { takeUntil, switchMap } from 'rxjs/operators';
+import { Subject, takeUntil } from 'rxjs';
 
 const iconRetinaUrl = 'assets/marker-icon-2x.png';
 const iconUrl = 'assets/marker-icon.png';
@@ -26,15 +25,13 @@ const iconDefault = icon({
 Marker.prototype.options.icon = iconDefault;
 
 @Component({
-  selector: 'app-tracking',
-  templateUrl: './tracking.component.html',
-  styleUrls: ['./tracking.component.scss'],
+  selector: 'app-trackingsocket',
+  templateUrl: './trackingsocket.component.html',
+  styleUrls: ['./trackingsocket.component.scss']
 })
-export class TrackingComponent implements OnInit {
+export class TrackingsocketComponent implements OnInit {
   machine_ID = 'IP1';
   markers: L.Marker[] = [];
-  coordinates : any[] = [];
-
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -44,14 +41,10 @@ export class TrackingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Use interval to trigger the API call every 5 seconds
-    interval(3000)
-      .pipe(
-        switchMap(() => this.coordinatesService.getCoordinates(this.machine_ID)),
-        takeUntil(this.destroy$)
-      )
+    this.webSocketService.connect()
+      .pipe(takeUntil(this.destroy$))
       .subscribe((data: any) => {
-        const latestGpsData = new coordinates(data[data.length - 1].latitude, data[data.length - 1].longitude);
+        const latestGpsData = new coordinates(data.latitude, data.longitude);
         console.log('Latest Coordinates:', latestGpsData);
         this.addMarker(latestGpsData);
         console.log('Markers Array:', this.markers);
@@ -98,5 +91,6 @@ export class TrackingComponent implements OnInit {
       shadowSize: [41, 41],
     }),
   };
-  layers = [L.marker([43.27, -0.35])]; // Default marker
+
+  layers = [L.marker([43.27, -0.35])];
 }

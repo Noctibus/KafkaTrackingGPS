@@ -5,8 +5,9 @@
         Documentation de l'Application Tracking GPS
     </h1>
     <div class="mt-10 mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48">
-        <p>Bienvenue dans la documentation de l'application Tracking GPS développée par Lucas Pauzies. Cette application
-            simule l'IoT d'un système de suivi GPS en temps réel, utilisant une architecture microservices.</p>
+        <p>Bienvenue dans la documentation de l'application Tracking GPS, un projet développé par Lucas Pauzies. Cette
+            application vise à simuler l'IoT d'un système de suivi GPS en temps réel, en utilisant une architecture
+            microservices.</p>
     </div>
 </div>
 
@@ -15,12 +16,19 @@
         Objectif du Projet
     </h3>
     <div class="mt-10 text-lg font-normal text-gray-500">
-        <p>L'objectif principal de ce projet est de créer une application de suivi GPS avec l'affichage en temps réel de
-            la position des machines sur une carte. L'architecture microservices mise en place consiste en un broker
-            Kafka accessible depuis deux machines physiques (IP1, IP2), deux producteurs Kafka générant des coordonnées
-            GPS cohérentes, un consommateur Kafka stockant ces informations dans une base de données PostgreSQL, et une
-            API FastAPI fournissant des routes pour récupérer les données en temps réel. Un frontend utilisant une
-            librairie de cartographie (par exemple, Leaflet) affiche la position des machines sur la carte.</p>
+        <p>L'objectif de ce projet est de concevoir une application de suivi GPS permettant
+            l'affichage en temps réel de positions sur une carte. L'architecture microservices
+            mise en place comprend un broker Kafka accessible depuis deux machines physiques (IP1, IP2), deux
+            producteurs
+            Kafka générant des coordonnées GPS cohérentes, un consommateur Kafka stockant ces informations dans une base
+            de données
+            et une API FastAPI. Cette API fourni des routes pour récupérer les données en temps réel. Viens ensuite un
+            frontend
+            développé en Angular 17, avec l'utilisation de Tailwind CSS pour le style qui intègre une librairie de
+            cartographie
+            Leaflet et pour afficher dynamiquement la position des machines sur la carte. Les coordonnées sont
+            directements récupérer depuis l'API via une websocket
+            offrant une expérience dynamique et réactive.</p>
     </div>
 </div>
 
@@ -179,11 +187,10 @@
 </div>
 <div class="mt-10 ml-36 mr-36">
     <h3 class="text-xl font-extrabold leading-none tracking-tight text-gray-900">
-        Auteur
+        Auteurs
     </h3>
-    <div class="mt-10 text-lg font-normal text-gray-500">
-        <p>De Cenival Stanislas</p>
-        <p>Ibsaine Brahim</p>
-        <p>Madrelle Alexis</p>
+    <p><a href="https://github.com/Noctibus/KafkaTrackingGPS">https://github.com/Noctibus/KafkaTrackingGPS</a></p>
+    <div class="mt-5 text-lg font-normal text-gray-500">
+        De Cenival Stanislas, Ibsaine Brahim, Madrelle Alexis
     </div>
 </div>

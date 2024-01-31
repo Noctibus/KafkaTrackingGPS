@@ -4,12 +4,14 @@ import { HomeComponent } from './component/home/home.component';
 import { HeaderComponent } from './component/header/header.component';
 import { TrackingComponent } from './component/tracking/tracking.component';
 import { DocComponent } from './component/doc/doc.component';
+import { TrackingsocketComponent } from './component/trackingsocket/trackingsocket.component';
 
 const routes: Routes = [
-  { path: '', component : HomeComponent},
   { path: 'home', component : HomeComponent}, 
   { path: 'tracking', component: TrackingComponent},
+  { path: 'trackingsocket', component: TrackingsocketComponent},
   { path: 'doc', component: DocComponent},
+  { path: '', component : HomeComponent},
   { path: '**', redirectTo: '' } 
 ];
 
